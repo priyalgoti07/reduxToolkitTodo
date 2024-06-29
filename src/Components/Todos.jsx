@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { removeTodo, updateTodo } from '../features/todo/todoSlice'
 
-const Todos = () => {
+const Todos = ({ setTodoToUpdate }) => {
     const todos = useSelector(state => state.todos)
     const dispatch = useDispatch()
 
@@ -18,7 +18,7 @@ const Todos = () => {
                         <div className='text-white'>{todo.text}</div>
                         <div className='flex gap-2'>
                             <button
-                                onClick={() => dispatch(updateTodo(todo))}
+                                onClick={() => setTodoToUpdate(todo)}
                                 className="text-white bg-green-500 border-0 py-1 px-4 focus:outline-none hover:bg-green-600 rounded text-md">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

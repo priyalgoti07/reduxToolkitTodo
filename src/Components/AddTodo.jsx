@@ -1,20 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo } from '../features/todo/todoSlice'
+import { addTodo, updateTodo } from '../features/todo/todoSlice'
 
-const AddTodo = () => {
-    const todos = useSelector(state => state.todos)
-    const [input, setInput] = useState()
+const AddTodo = ({ todoToUpdate, setTodoToUpdate }) => {
+    const [input, setInput] = useState('')
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        if (todoToUpdate) {
+            setInput(todoToUpdate.text)
+        }
+    }, [todoToUpdate])
 
-    console.log("todos", todos);
     const addTodoHandler = (event) => {
         event.preventDefault()
-        dispatch(addTodo(input))
-        setInput('')
+        if (todoToUpdate) {
+            dispatch(updateTodo({
+                id: todoToUpdate.id,
+                text: input
+            }))
+            setInput('')
+            setTodoToUpdate(null);
+        }
+        else {
+            if (input) {
+                dispatch(addTodo(input))
+                setInput('')
+            }
+
+        }
     }
 
     return (
